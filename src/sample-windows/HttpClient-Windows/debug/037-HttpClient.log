@@ -1,0 +1,6 @@
+﻿  HttpClient.c
+d:\dropbox\kurslar\sysprog2-2016\src\037-httpclient-windows\httpclient.c(34): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+d:\dropbox\kurslar\sysprog2-2016\src\037-httpclient-windows\httpclient.c(36): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+  037-HttpClient.vcxproj -> D:\Dropbox\Kurslar\SysProg2-2016\Src\037-HttpClient-Windows\Debug\037-HttpClient.exe

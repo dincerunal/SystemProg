@@ -1,0 +1,264 @@
+ # Base Directories 
+IMAGE_NAME = kernel
+BASE_DIR = /home/kaan/LinuxShared/OSDev
+BASE_INC_DIR = ${BASE_DIR}/include
+BASE_ARCH_I386_DIR = ${BASE_DIR}/arch/i386
+BASE_INC_ARCH_I386_DIR = ${BASE_INC_DIR}/arch/i386
+
+#make Search Path
+VPATH = ${BASE_ARCH_I386_DIR}/boot/dos:\
+	${BASE_ARCH_I386_DIR}/boot/floppy:\
+	${BASE_ARCH_I386_DIR}/general:\
+	${BASE_ARCH_I386_DIR}/init:\
+	${BASE_ARCH_I386_DIR}/kernel:\
+	${BASE_ARCH_I386_DIR}/mm:\
+	${BASE_ARCH_I386_DIR}/process:\
+	${BASE_ARCH_I386_DIR}/shell:\
+	${BASE_DIR}build:\
+	${BASE_DIR}/drivers/block:\
+	${BASE_DIR}/fs/fat/msdos:\
+	${BASE_DIR}/fs/fat/vfat:\
+	${BASE_DIR}/fs/fat:\
+	${BASE_DIR}/fs:\
+	${BASE_DIR}/general:\
+	${BASE_INC_ARCH_I386_DIR}/boot:\
+	${BASE_INC_ARCH_I386_DIR}/fs:\
+	${BASE_INC_ARCH_I386_DIR}/general:\
+	${BASE_INC_ARCH_I386_DIR}/inl/gcc:\
+	${BASE_INC_ARCH_I386_DIR}/inl:\
+	${BASE_INC_ARCH_I386_DIR}/kernel:\
+	${BASE_INC_ARCH_I386_DIR}/mm:\
+	${BASE_INC_ARCH_I386_DIR}/process:\
+	${BASE_INC_DIR}/drivers/block:\
+	${BASE_INC_DIR}/fs/fat/msdos:\
+	${BASE_INC_DIR}/fs/fat/vfat:\
+	${BASE_INC_DIR}/fs/fat:\
+	${BASE_INC_DIR}/fs:\
+	${BASE_INC_DIR}/general:\
+	${BASE_INC_DIR}/init:\
+	${BASE_INC_DIR}/kernel:\
+	${BASE_INC_DIR}/mm:\
+	${BASE_INC_DIR}/process:\
+	${BASE_INC_DIR}/shell:\
+	${BASE_INC_DIR}/test:\
+	${BASE_DIR}/init:\
+	${BASE_DIR}/kernel:\
+	${BASE_DIR}/mm:\
+	${BASE_DIR}/process:\
+	${BASE_DIR}/shell:\ 
+
+# Translators' flags
+
+CC_FLAGS = -c -m32 -O2 -Wall -D _TEST -D _SUSPICIOUS -fleading-underscore
+NASM_FLAGS = -f elf 
+LD_FLAGS = -o kernel.o -melf_i386 -Ttext 0x100000 -N -e _KernelMain -Map kernel.map
+OCOPY_FLAGS = -R .note -R .comment -S -O binary
+
+# nasm and gcc Include Directories
+NASM_INC = 	-i ${BASE_INC_DIR}/general/ 			\
+			-i ${BASE_INC_ARCH_I386_DIR}/boot/ 		\
+			-i ${BASE_INC_ARCH_I386_DIR}/kernel/ 		
+			
+CC_INC = 	-I${BASE_INC_ARCH_I386_DIR}/boot 			\
+			-I${BASE_INC_ARCH_I386_DIR}/fs 			\
+			-I${BASE_INC_ARCH_I386_DIR}/general 		\
+			-I${BASE_INC_ARCH_I386_DIR}/inl/gcc		\
+			-I${BASE_INC_ARCH_I386_DIR}/inl/microsoft	\
+			-I${BASE_INC_ARCH_I386_DIR}/kernel		\
+			-I${BASE_INC_ARCH_I386_DIR}/mm			\
+			-I${BASE_INC_ARCH_I386_DIR}/process		\
+			-I${BASE_INC_DIR}/drivers			\
+			-I${BASE_INC_DIR}/drivers/block			\
+			-I${BASE_INC_DIR}/fs				\
+			-I${BASE_INC_DIR}/fs/fat			\
+			-I${BASE_INC_DIR}/fs/fat/msdos		\
+			-I${BASE_INC_DIR}/fs/fat/vfat		\
+			-I${BASE_INC_DIR}/general			\
+			-I${BASE_INC_DIR}/init				\
+			-I${BASE_INC_DIR}/kernel			\
+			-I${BASE_INC_DIR}/mm				\
+			-I${BASE_INC_DIR}/process			\
+			-I${BASE_INC_DIR}/shell				\
+			-I${BASE_INC_DIR}/test			
+
+# object files for linking process
+OBJ_FILES =		_startup-asm.o			\
+				_utilarch-asm.o			\
+				_gate-asm.o				\
+				_gate.o					\
+				_io-asm.o				\
+				_irq-asm.o				\
+				_irq.o					\
+				_trap.o 				\
+				_syscall-asm.o			\
+				_keyboard-asm.o			\
+				_keyboard.o				\
+				_scr-asm.o				\
+				_scr.o					\
+				_setup.o				\
+				_timer.o				\
+				util.o					\
+				bitops.o				\
+				_pgtable.o				\
+				numa.o					\
+				page.o					\
+				zone.o					\
+				bank.o					\
+				mm.o					\
+				slab.o					\
+				vmalloc.o				\
+				process.o				\
+				thread.o				\
+				sched.o					\
+				buffer.o				\
+				dcache.o				\
+				dentry.o				\
+				device.o				\
+				filedes.o				\
+				inode.o					\
+				mount.o					\
+				open.o					\
+				fs.o					\
+				sb.o					\
+				fstype.o				\
+				fileobj.o				\
+				procfile.o				\
+				shell.o					\
+				test.o					\
+				main.o						
+
+# target rule
+kimage	:	${OBJ_FILES} 
+		ld ${LD_FLAGS}  ${OBJ_FILES} /lib/libc.a
+		objcopy ${OCOPY_FLAGS}  ${IMAGE_NAME}.o ${IMAGE_NAME}.bin
+
+# compiling modules 
+_startup-asm.o	: _startup.asm _kernel.inc _bootdef.inc
+	nasm ${NASM_FLAGS}  ${NASM_INC} -o _startup-asm.o  ${BASE_ARCH_I386_DIR}/init/_startup.asm
+
+_utilarch-asm.o	: _utilarch.asm 
+	nasm ${NASM_FLAGS} ${NASM_INC} -o _utilarch-asm.o ${BASE_ARCH_I386_DIR}/kernel/_utilarch.asm
+
+_io-asm.o :	_io.asm
+	nasm ${NASM_FLAGS} ${NASM_INC} -o _io-asm.o ${BASE_ARCH_I386_DIR}/kernel/_io.asm
+
+_irq-asm.o : _irq.asm
+	nasm ${NASM_FLAGS} ${NASM_INC} -o _irq-asm.o ${BASE_ARCH_I386_DIR}/kernel/_irq.asm
+
+_irq.o : _irq.c _irq.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_ARCH_I386_DIR}/kernel/_irq.c
+
+_trap.o : _trap.c _trap.h 
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_ARCH_I386_DIR}/kernel/_trap.c
+ 
+_syscall-asm.o : _syscall.asm 
+	nasm ${NASM_FLAGS} ${NASM_INC} -o _syscall-asm.o ${BASE_ARCH_I386_DIR}/kernel/_syscall.asm
+	
+_keyboard-asm.o	: _keyboard.asm
+	nasm ${NASM_FLAGS} ${NASM_INC} -o _keyboard-asm.o ${BASE_ARCH_I386_DIR}/kernel/_keyboard.asm
+
+_keyboard.o	: _keyboard.c _keyboard.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_ARCH_I386_DIR}/kernel/_keyboard.c
+
+_scr-asm.o	: _scr.asm
+	nasm ${NASM_FLAGS} ${NASM_INC} -o _scr-asm.o ${BASE_ARCH_I386_DIR}/kernel/_scr.asm
+
+_scr.o	: _scr.c _scr.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_ARCH_I386_DIR}/kernel/_scr.c
+
+_timer.o : _timer.c _timer.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_ARCH_I386_DIR}/kernel/_timer.c
+
+_setup.o : _setup.c _setup.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_ARCH_I386_DIR}/kernel/_setup.c
+
+util.o : util.c util.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/general/util.c
+
+bitops.o : bitops.c bitops.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/general/bitops.c
+
+_pgtable.o : _pgtable.c _pgtable.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_ARCH_I386_DIR}/mm/_pgtable.c
+
+numa.o : numa.c numa.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/mm/numa.c
+
+page.o : page.c page.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/mm/page.c
+
+zone.o : zone.c zone.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/mm/zone.c
+
+bank.o : bank.c bank.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/mm/bank.c
+
+mm.o : mm.c mm.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/mm/mm.c
+
+slab.o : slab.c slab.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/mm/slab.c
+	
+vmalloc.o : vmalloc.c vmalloc.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/mm/vmalloc.c
+
+process.o : process.c process.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/process/process.c
+
+thread.o : thread.c thread.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/process/thread.c
+
+sched.o : sched.c sched.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/process/sched.c
+
+buffer.o : buffer.c buffer.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/buffer.c
+
+dcache.o : dcache.c dcache.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/dcache.c
+	
+dentry.o : dentry.c dentry.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/dentry.c
+
+device.o : device.c device.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/device.c
+
+filedes.o : filedes.c filedes.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/filedes.c
+
+inode.o : inode.c inode.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/inode.c
+
+mount.o : mount.c mount.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/mount.c
+
+open.o : open.c open.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/open.c
+
+fs.o : fs.c fs.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/fs.c
+
+sb.o : sb.c sb.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/sb.c
+	
+fstype.o : fstype.c sb.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/fstype.c
+
+fileobj.o : fileobj.c fileobj.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/fileobj.c
+
+procfile.o : procfile.c procfile.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/fs/procfile.c
+
+shell.o	: shell.c shell.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/shell/shell.c
+
+test.o	: test.c test.h
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/test/test.c
+
+main.o	: main.c main.h 
+	gcc ${CC_FLAGS} ${CC_INC} ${BASE_DIR}/init/main.c
+
+clean:
+	rm *.o 2> null
+	rm ${IMAGENAME}.bin 2> null

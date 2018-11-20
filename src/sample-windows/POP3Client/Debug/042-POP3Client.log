@@ -1,0 +1,12 @@
+﻿  POP3Client.c
+d:\dropbox\kurslar\sysprog2-2016\src\042-pop3client\pop3client.c(38): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+d:\dropbox\kurslar\sysprog2-2016\src\042-pop3client\pop3client.c(40): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+d:\dropbox\kurslar\sysprog2-2016\src\042-pop3client\pop3client.c(53): warning C4996: 'strcat': This function or variable may be unsafe. Consider using strcat_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(90): note: see declaration of 'strcat'
+d:\dropbox\kurslar\sysprog2-2016\src\042-pop3client\pop3client.c(57): warning C4996: 'stricmp': The POSIX name for this item is deprecated. Instead, use the ISO C and C++ conformant name: _stricmp. See online help for details.
+  c:\program files (x86)\windows kits\10\include\10.0.10240.0\ucrt\string.h(568): note: see declaration of 'stricmp'
+d:\dropbox\kurslar\sysprog2-2016\src\042-pop3client\pop3client.c(71): warning C4101: 'code': unreferenced local variable
+d:\dropbox\kurslar\sysprog2-2016\src\042-pop3client\pop3client.c(72): warning C4101: 'i': unreferenced local variable
+  042-POP3Client.vcxproj -> D:\Dropbox\Kurslar\SysProg2-2016\Src\042-POP3Client\Debug\042-POP3Client.exe

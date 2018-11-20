@@ -1,0 +1,9 @@
+﻿  SMTPClient.c
+d:\dropbox\kurslar\sysprog2-2016\src\043-smtpclient\smtpclient.c(51): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+d:\dropbox\kurslar\sysprog2-2016\src\043-smtpclient\smtpclient.c(53): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+d:\dropbox\kurslar\sysprog2-2016\src\043-smtpclient\smtpclient.c(41): warning C4101: 'len': unreferenced local variable
+d:\dropbox\kurslar\sysprog2-2016\src\043-smtpclient\smtpclient.c(40): warning C4101: 'cmdLine': unreferenced local variable
+d:\dropbox\kurslar\sysprog2-2016\src\043-smtpclient\smtpclient.c(76): warning C4101: 'code': unreferenced local variable
+  043-SMTPClient.vcxproj -> D:\Dropbox\Kurslar\SysProg2-2016\Src\043-SMTPClient\Debug\043-SMTPClient.exe

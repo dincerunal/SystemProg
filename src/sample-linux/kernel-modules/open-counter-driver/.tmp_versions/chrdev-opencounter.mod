@@ -1,0 +1,3 @@
+/home/karans/Dropbox/CSD/Kurslar/Netas-SysProg-2018/Src/Sample-Linux/kernel-modules/open-counter-driver/chrdev-opencounter.ko
+/home/karans/Dropbox/CSD/Kurslar/Netas-SysProg-2018/Src/Sample-Linux/kernel-modules/open-counter-driver/chrdev-opencounter.o
+

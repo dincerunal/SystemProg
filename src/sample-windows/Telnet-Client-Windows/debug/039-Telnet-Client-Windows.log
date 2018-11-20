@@ -1,0 +1,7 @@
+﻿  TelnetClient.c
+d:\dropbox\kurslar\sysprog2-2016\src\039-telnet-client-windows\telnetclient.c(59): warning C4013: 'getch' undefined; assuming extern returning int
+d:\dropbox\kurslar\sysprog2-2016\src\039-telnet-client-windows\telnetclient.c(45): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(1850): note: see declaration of 'inet_addr'
+d:\dropbox\kurslar\sysprog2-2016\src\039-telnet-client-windows\telnetclient.c(47): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\8.1\include\um\winsock2.h(2238): note: see declaration of 'gethostbyname'
+  039-Telnet-Client-Windows.vcxproj -> D:\Dropbox\Kurslar\SysProg2-2016\Src\039-Telnet-Client-Windows\Debug\039-Telnet-Client-Windows.exe
